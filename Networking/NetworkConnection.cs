@@ -63,11 +63,10 @@ public sealed class NetworkConnection : IDisposable
     /// </summary>
     public bool IsConnected
     {
-        get
-        {
-            // TODO: implement this
-            throw new NotImplementedException();
-        }
+       if (_tcpClient != null)
+            return _tcpClient.Connected;
+        else 
+            return false;
     }
 
 
@@ -130,8 +129,12 @@ public sealed class NetworkConnection : IDisposable
     /// </summary>
     public void Disconnect( )
     {
-        //TODO: implement this
-        throw new NotImplementedException();
+        if (IsConnected)
+        {
+            _tcpClient.Close();
+            _reader?.Dispose();
+            _writer?.Dispose();
+        }
     }
 
     /// <summary>
