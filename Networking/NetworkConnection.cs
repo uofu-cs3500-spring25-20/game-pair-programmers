@@ -78,8 +78,11 @@ public sealed class NetworkConnection : IDisposable
     /// <param name="port"> The port, e.g., 11000. </param>
     public void Connect( string host, int port )
     {
-        // TODO: implement this
-        throw new NotImplementedException();
+        if (IsConnected)
+           throw new InvalidOperationException();
+        _tcpClient.Connect(host, port);
+        _reader = new StreamReader(_tcpClient.GetStream(), Encoding.UTF8);
+        _writer = new StreamWriter(_tcpClient.GetStream(), Encoding.UTF8) { AutoFlush = true };
     }
 
 
@@ -94,8 +97,10 @@ public sealed class NetworkConnection : IDisposable
     /// <param name="message"> The string of characters to send. </param>
     public void Send( string message )
     {
-        // TODO: Implement this
-        throw new NotImplementedException();
+        if (!IsConnected)
+            throw new InvalidOperationException();
+
+        _writer.WriteLine(message)
     }
 
 
@@ -108,8 +113,14 @@ public sealed class NetworkConnection : IDisposable
     /// <returns> The contents of the message. </returns>
     public string ReadLine( )
     {
-        // TODO: implement this
-        throw new NotImplementedException();
+        if (!IsConnected)
+            throw new InvalidOperationException();
+
+        string line = _reader.ReadLine();
+        if (line == null)
+            throw new InvalidOperationException("Disconnected from remote server.");
+
+        return line;
 
     }
 
