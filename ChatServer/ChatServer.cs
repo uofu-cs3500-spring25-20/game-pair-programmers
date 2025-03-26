@@ -37,16 +37,26 @@ public partial class ChatServer
         // handle all messages until disconnect.
         try
         {
+            bool isNamed = false;
+            string name = "";
+
             while ( true )
             {
                 var message = connection.ReadLine( );
 
-                connection.Send( "thanks!" );
+                if (!isNamed)
+                {
+                    name = name + message + ": ";
+                    isNamed = true;
+                    continue;
+                }
+                //add sending each message to each client
+                connection.Send( name + message );
             }
         }
         catch ( Exception )
         {
-            // do anything necessary to handle a disconnected client in here
+            connection.Disconnect();
         }
     }
 }
