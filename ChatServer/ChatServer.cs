@@ -12,6 +12,9 @@ namespace CS3500.Chatting;
 /// </summary>
 public partial class ChatServer
 {
+    /// <summary>
+    ///   A list that contains all clients.
+    /// </summary>
     private static List<NetworkConnection> clients = new();
 
     /// <summary>
@@ -61,6 +64,7 @@ public partial class ChatServer
         }
         catch ( Exception )
         {
+            clients.Remove( connection );
             connection.Disconnect();
         }
     }
