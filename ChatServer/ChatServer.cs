@@ -12,6 +12,7 @@ namespace CS3500.Chatting;
 /// </summary>
 public partial class ChatServer
 {
+    private static List<NetworkConnection> clients = new();
 
     /// <summary>
     ///   The main program.
@@ -50,8 +51,12 @@ public partial class ChatServer
                     isNamed = true;
                     continue;
                 }
-                //add sending each message to each client
-                connection.Send( name + message );
+                lock (clients)
+                {
+                    clients.Add(connection);
+                }
+                foreach(NetworkConnection c in clients)
+                    c.Send( name + message );
             }
         }
         catch ( Exception )

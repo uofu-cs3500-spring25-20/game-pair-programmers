@@ -63,10 +63,14 @@ public sealed class NetworkConnection : IDisposable
     /// </summary>
     public bool IsConnected
     {
-       if (_tcpClient != null)
-            return _tcpClient.Connected;
-        else 
-            return false;
+        get 
+        {
+            if (_tcpClient != null)
+                return _tcpClient.Connected;
+            else 
+                return false;
+        }
+       
     }
 
 
@@ -99,7 +103,7 @@ public sealed class NetworkConnection : IDisposable
         if (!IsConnected)
             throw new InvalidOperationException();
 
-        _writer.WriteLine(message)
+        _writer.WriteLine(message);
     }
 
 

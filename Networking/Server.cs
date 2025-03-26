@@ -5,6 +5,7 @@
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 
 namespace CS3500.Networking;
 
@@ -24,9 +25,19 @@ public static class Server
     ///   This should be run asynchronously via a new thread.
     /// </param>
     /// <param name="port"> The port (e.g., 11000) to listen on. </param>
-    public static void StartServer( Action<NetworkConnection> handleConnect, int port )
+    public static void StartServer(Action<NetworkConnection> handleConnect, int port)
     {
-        // TODO: Implement this
-        throw new NotImplementedException();
+        TcpListener listener = new(IPAddress.Any, port);
+
+        listener.Start();
+
+        while (true)
+        {
+            TcpClient client = listener.AcceptTcpClient();
+
+            Console.WriteLine("accepted a connection");
+            
+            
+        }
     }
 }
