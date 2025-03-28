@@ -146,7 +146,7 @@ public sealed class NetworkConnection : IDisposable
     }
 
     /// <summary>
-    ///   Automatically called with a using statement (see IDisposable)
+    ///   Automatically called with a using statement (see IDisposable)x
     /// </summary>
     public void Dispose( )
     {
