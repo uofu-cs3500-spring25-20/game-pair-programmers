@@ -43,7 +43,10 @@ public partial class ChatServer
         {
             bool isNamed = false;
             string name = "";
-
+            lock (clients)
+            {
+                clients.Add(connection);
+            }
             while ( true )
             {
                 var message = connection.ReadLine( );
@@ -54,10 +57,7 @@ public partial class ChatServer
                     isNamed = true;
                     continue;
                 }
-                lock (clients)
-                {
-                    clients.Add(connection);
-                }
+               
                 foreach(NetworkConnection c in clients)
                     c.Send( name + message );
             }
