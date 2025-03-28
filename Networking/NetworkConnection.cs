@@ -100,7 +100,7 @@ public sealed class NetworkConnection : IDisposable
     /// <param name="message"> The string of characters to send. </param>
     public void Send( string message )
     {
-        if (!IsConnected)
+        if (!IsConnected || _writer == null)
             throw new InvalidOperationException();
 
         _writer.WriteLine(message);
@@ -138,6 +138,10 @@ public sealed class NetworkConnection : IDisposable
             _tcpClient.Close();
             _reader?.Dispose();
             _writer?.Dispose();
+
+            _reader = null;
+            _writer = null;
+            _tcpClient = new TcpClient();
         }
     }
 

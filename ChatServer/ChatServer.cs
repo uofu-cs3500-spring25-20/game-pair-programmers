@@ -53,7 +53,7 @@ public partial class ChatServer
 
                 if (!isNamed)
                 {
-                    name = name + message + ": ";
+                    name = message + ": ";
                     isNamed = true;
                     continue;
                 }
@@ -64,7 +64,7 @@ public partial class ChatServer
         }
         catch ( Exception )
         {
-            clients.Remove( connection );
+           lock (clients) { clients.Remove(connection); }
             connection.Disconnect();
         }
     }
